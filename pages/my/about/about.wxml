@@ -3,6 +3,7 @@
   <view slot="content">个人资料</view>
 </cu-custom>
 <view class='margin-xl bg-white padding-xl radius shadow-lg'>
+<block wx:if="{{ongoing}}">
   <form>
     <view class="margin-lr">
       <view class="cu-form-group margin-top">
@@ -27,4 +28,20 @@
       </view>
     </view>
   </form>
+</block>
+<block wx:else>
+    <view class="margin-lr">
+      <view class="cu-form-group margin-top">
+        <view class="title">姓名: {{username}}</view>
+      </view>
+
+      <view class="cu-form-group">
+        <view class="title">手机号: {{phone}}</view>
+      </view>
+
+      <view class="cu-form-group">
+        <view class="title">公司: {{fct}}</view>
+      </view>
+    </view>
+</block>
 </view>

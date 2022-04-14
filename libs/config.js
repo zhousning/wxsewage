@@ -9,6 +9,7 @@ var configs = {
     getUserId: 'http://192.168.2.163:3000/wx_users/get_userid',
     updateUser: 'http://192.168.2.163:3000/wx_users/',
     fcts: 'http://192.168.2.163:3000/wx_users/fcts',
+    status: 'http://192.168.2.163:3000/wx_users/status',
     set_fct: 'http://192.168.2.163:3000/wx_users/set_fct',
   },
   games: {

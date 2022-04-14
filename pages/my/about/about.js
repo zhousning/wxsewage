@@ -5,48 +5,78 @@ Page({
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     ColorList: app.globalData.ColorList,
+    ongoing: false,
     username: '',
     phone: '',
+    company: '',
     index: 0,
     picker: [],
   },
   onLoad: function () {
     let that = this;
+    let openid = wx.getStorageSync('openId')
     wx.showLoading({
       title: '数据加载中',
     })
     wx.request({
-      url: configs.routes.fcts,
+      url: configs.routes.status,
       method: 'get',
       header: {
         'Accept': "*/*",
         'content-type': 'application/json' // 默认值
       },
+      data: {
+        id: openid
+      },
       success: function (res) {
         wx.hideLoading();
-        if (res.data) {
-          var array = []
-          res.data.forEach(element => {
-            array.push(element)
-          });
+        var data = res.data
+        if (data.status == 'ongoing') {
           that.setData({
-            picker: array
+            ongoing: true
           })  
-        } else {
-          wx.showToast({
-            title: '数据加载失败',
-            icon: 'none',
-            duration: 2000
+          wx.request({
+            url: configs.routes.fcts,
+            method: 'get',
+            header: {
+              'Accept': "*/*",
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              wx.hideLoading();
+              if (res.data) {
+                var array = []
+                res.data.forEach(element => {
+                  array.push(element)
+                });
+                that.setData({
+                  picker: array
+                })  
+              } else {
+                wx.showToast({
+                  title: '数据加载失败',
+                  icon: 'none',
+                  duration: 2000
+                })
+              }
+            },
+            fail: function () {
+              wx.hideLoading();
+              wx.showToast({
+                title: '数据加载失败',
+                icon: 'none',
+                duration: 2000
+              })
+            }
           })
+        } else {
+          that.setData({
+            ongoing: false,
+            username: data.name,
+            phone: data.phone,
+            fct: data.fct 
+          })  
         }
-      },
-      fail: function () {
-        wx.hideLoading();
-        wx.showToast({
-          title: '数据加载失败',
-          icon: 'none',
-          duration: 2000
-        })
       }
     })
   },
