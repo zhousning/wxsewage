@@ -8,7 +8,6 @@ Page({
     site_name: '',
     longitude: '',
     latitude: '',
-    markers: [],
     question: '',
     imgList: [],
     running: [{
@@ -24,8 +23,9 @@ Page({
     textareaAValue: ''
   },
   onReady: function (e) {
-    this.mapCtx = wx.createMapContext('myMap')
+    var mapCtx = wx.createMapContext('myMap')
     this.locatePosition();
+    mapCtx.moveToLocation();
   },
   locatePosition() {
     let that = this;
@@ -34,25 +34,15 @@ Page({
     })
     wx.getLocation({
       type: 'gcj02 ',
+      isHighAccuracy: true,
+      highAccuracyExpireTime: 5000,
       success(res) {
         wx.hideLoading()
         const latitude = res.latitude
         const longitude = res.longitude
-        var marker = {
-          id: 1,
-          latitude: latitude,
-          longitude: longitude,
-          iconPath: '/images/location.png',
-          customCallout: {
-            anchorY: 0,
-            anchorX: 20,
-            display: 'ALWAYS',
-          },
-        }
         that.setData({
           longitude: longitude,
-          latitude: latitude,
-          markers: [marker]
+          latitude: latitude
         })
       },
       fail(res) {
