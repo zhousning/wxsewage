@@ -5,8 +5,65 @@ Page({
    * 页面的初始数据
    */
   data: {
+    site_name: '',
+    longitude: '',
+    latitude: '',
+    markers: [],
+    question: '',
     imgList: [],
+    running: [{
+        text: '正常',
+        value: '0',
+        checked: 'true'
+      },
+      {
+        text: '异常',
+        value: '1'
+      },
+    ],
     textareaAValue: ''
+  },
+  onReady: function (e) {
+    this.mapCtx = wx.createMapContext('myMap')
+    this.locatePosition();
+  },
+  locatePosition() {
+    let that = this;
+    wx.showLoading({
+      title: '定位中',
+    })
+    wx.getLocation({
+      type: 'gcj02 ',
+      success(res) {
+        wx.hideLoading()
+        const latitude = res.latitude
+        const longitude = res.longitude
+        var marker = {
+          id: 1,
+          latitude: latitude,
+          longitude: longitude,
+          iconPath: '/images/location.png',
+          customCallout: {
+            anchorY: 0,
+            anchorX: 20,
+            display: 'ALWAYS',
+          },
+        }
+        that.setData({
+          longitude: longitude,
+          latitude: latitude,
+          markers: [marker]
+        })
+      },
+      fail(res) {
+        wx.hideLoading()
+        wx.showToast({
+          title: '30秒后重试',
+          icon: "loading",
+          duration: 1000
+        })
+      }
+    })
   },
   textareaAInput(e) {
     this.setData({
@@ -53,4 +110,14 @@ Page({
       }
     })
   },
+  radioChange(e) {
+    console.log('radio发生change事件，携带value值为：', e.detail.value)
+    const items = this.data.running
+    for (let i = 0, len = items.length; i < len; ++i) {
+      items[i].checked = items[i].value === e.detail.value
+    }
+    this.setData({
+      running: items
+    })
+  }
 })

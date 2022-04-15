@@ -1,61 +1,65 @@
 <cu-custom bgColor="bg-cyan" isBack="{{true}}">
-  <view slot="backText">返回</view>
-  <view slot="content">报修信息填报</view>
+	<view slot="backText">返回</view>
+	<view slot="content">巡检卡填报</view>
 </cu-custom>
 
-<scroll-view scroll-x >
-  <form>
-	<view class="cu-form-group margin-top">
-		<view class="title">姓名</view>
-		<input placeholder=""></input>
-	</view>
-
-  <view class="cu-form-group">
-		<view class="title">手机号码</view>
-		<input placeholder=""></input>
-	</view>
-
-	<view class="cu-form-group">
-		<view class="title">报修单位</view>
-		<input placeholder=""></input>
-	</view>
-	<view class="cu-form-group">
-		<view class="title">所属部门</view>
-		<input placeholder=""></input>
-	</view>
-	<view class="cu-form-group">
-		<view class="title">报修区域</view>
-		<input placeholder=""></input>
-		<text class="cuIcon-locationfill text-orange"></text>
-	</view>
-
-
-	<view class="cu-form-group ">
-		<textarea maxlength="-1" bindinput="textareaAInput" placeholder="故障描述"></textarea>
-	</view>
-
-  <view class="cu-bar bg-white ">
-		<view class="action">
-			图片上传
+<scroll-view scroll-x>
+	<form>
+		<view class="cu-form-group margin-top">
+			<view class="title">站点名称</view>
+			<input placeholder=""></input>
 		</view>
-		<view class="action">
-			{{imgList.length}}/4
-		</view>
-	</view>
 
-  <view class="cu-form-group">
-		<view class="grid col-4 grid-square flex-sub">
-			<view class="bg-img" wx:for="{{imgList}}" wx:key="{{index}}" bindtap="ViewImage" data-url="{{imgList[index]}}">
-				<image src='{{imgList[index]}}' mode='aspectFill'></image>
-				<view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}">
-					<text class="cuIcon-close"></text>
+		<view class="cu-form-group">
+			<view class="title">运行状态</view>
+			<radio-group bindchange="radioChange" name="running">
+				<label class="" wx:for="{{running}}" wx:key="{{item.value}}" style="margin-right:80rpx;">
+					<radio style="margin-right:10rpx;" value="{{item.value}}" checked="{{item.checked}}" />{{item.text}}
+				</label>
+			</radio-group>
+		</view>
+
+		<view class="cu-form-group" bindtap="locatePosition">
+      <view class="cu-item arrow">
+        <view class="content">
+          <text class="cuIcon-locationfill  text-orange"></text>
+          <text class="text-orange">定位签到</text>
+        </view>
+      </view>
+		</view>
+
+
+		<view class="cu-form-group ">
+			<textarea maxlength="-1" bindinput="textareaAInput" placeholder="问题反馈"></textarea>
+		</view>
+
+		<view class="cu-bar bg-white ">
+			<view class="action">
+				图片上传
+			</view>
+			<view class="action">
+				{{imgList.length}}/4
+			</view>
+		</view>
+
+		<view class="cu-form-group">
+			<view class="grid col-4 grid-square flex-sub">
+				<view class="bg-img" wx:for="{{imgList}}" wx:key="{{index}}" bindtap="ViewImage" data-url="{{imgList[index]}}">
+					<image src='{{imgList[index]}}' mode='aspectFill'></image>
+					<view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}">
+						<text class="cuIcon-close"></text>
+					</view>
+				</view>
+				<view class="solids" bindtap="ChooseImage" wx:if="{{imgList.length<4}}">
+					<text class="cuIcon-cameraadd"></text>
 				</view>
 			</view>
-			<view class="solids" bindtap="ChooseImage" wx:if="{{imgList.length<4}}">
-				<text class="cuIcon-cameraadd"></text>
-			</view>
 		</view>
+	</form>
+
+	<view class="page-section page-section-gap">
+		<map id="myMap" style="width: 100%; height: 300px;" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" scale="16">
+		</map>
 	</view>
-</form>
-<view class='cu-tabbar-height'></view>
+	<view class='cu-tabbar-height'></view>
 </scroll-view>

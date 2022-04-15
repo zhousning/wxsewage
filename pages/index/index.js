@@ -51,19 +51,11 @@ Page({
           })
         } else {
           wx.showToast({
-            title: '请扫描设备二维码',
+            title: '非农污二维码',
             duration: 3000,
             icon: 'loading'
           })
         }
-
-      },
-      fail: (res) => {
-        wx.showToast({
-          title: '扫码失败',
-          duration: 3000,
-          icon: 'loading'
-        })
       }
     })
 
