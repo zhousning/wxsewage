@@ -5,11 +5,28 @@
 
 <scroll-view scroll-x>
 	<form>
-		<view class="cu-form-group margin-top">
-			<view class="title">站点名称</view>
-			<input placeholder=""></input>
+		<view class="cu-form-group margin-top justify-between">
+			<view class="title">站点名称 </view>
+			<view class="title">{{site_name}}</view>
 		</view>
 
+		<view class="cu-form-group ">
+			<view class="title">巡检任务</view>
+			<picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
+				<view class="picker">
+					{{picker[index]}}
+				</view>
+			</picker>
+		</view>
+
+		<view class="cu-form-group " bindtap="locatePosition">
+			<view class="cu-item arrow">
+				<view class="content">
+					<text class="cuIcon-locationfill  text-orange"></text>
+					<text class="text-orange">定位签到</text>
+				</view>
+			</view>
+		</view>
 		<view class="cu-form-group">
 			<view class="title">运行状态</view>
 			<radio-group bindchange="radioChange" name="running">
@@ -17,15 +34,6 @@
 					<radio style="margin-right:10rpx;" value="{{item.value}}" checked="{{item.checked}}" />{{item.text}}
 				</label>
 			</radio-group>
-		</view>
-
-		<view class="cu-form-group" bindtap="locatePosition">
-      <view class="cu-item arrow">
-        <view class="content">
-          <text class="cuIcon-locationfill  text-orange"></text>
-          <text class="text-orange">定位签到</text>
-        </view>
-      </view>
 		</view>
 
 

@@ -1,4 +1,5 @@
 // pages/done/repair/repair.js
+const config = require('../../../libs/config')
 Page({
 
   /**
@@ -8,9 +9,11 @@ Page({
     site_name: '',
     longitude: '',
     latitude: '',
-        markers: [], 
+    markers: [],
     question: '',
     imgList: [],
+    index: 0,
+    picker: [],
     running: [{
         text: '正常',
         value: '0',
@@ -23,11 +26,61 @@ Page({
     ],
     textareaAValue: ''
   },
+  PickerChange(e) {
+    this.setData({
+      index: e.detail.value
+    })
+  },
+  onLoad: function (option) {
+    var that = this;
+    var openid = wx.getStorageSync('openid');
+    var fct_id = option.fct_id
+    var device_id = option.device_id
+
+    wx.showLoading({
+      title: '数据加载中',
+    })
+    wx.request({
+      url: config.routes.task_basic_card,
+      header: {
+        'Accept': "*/*",
+        'content-type': 'application/json' // 默认值
+      },
+      data: {
+        id: openid,
+        fct_id: fct_id,
+        device_id: device_id
+      },
+      success: function (res) {
+        wx.hideLoading();
+        var obj = res.data
+        if (obj) {
+          var array = []
+          obj.tasks.forEach(element => {
+            array.push(element.task_date)
+          });
+          that.setData({
+            picker: array,
+            site_name: obj.device.name
+          })
+        } else {
+          wx.showToast({
+            title: '数据加载失败',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      },
+      fail: function (e) {
+        console.log(e)
+        wx.hideLoading();
+      }
+    })
+  },
   onReady: function (e) {
     var mapCtx = wx.createMapContext('myMap')
     //this.locatePosition();
     mapCtx.moveToLocation();
-   
   },
   locatePosition() {
     let that = this;
@@ -43,11 +96,11 @@ Page({
         wx.hideLoading()
         const latitude = res.latitude
         const longitude = res.longitude
-        var marker = { 
-          id: 1, 
-          latitude: res.latitude, 
-          longitude: res.longitude, 
-          iconPath: '/images/location.png', 
+        var marker = {
+          id: 1,
+          latitude: res.latitude,
+          longitude: res.longitude,
+          iconPath: '/images/location.png',
         }
         that.setData({
           longitude: longitude,

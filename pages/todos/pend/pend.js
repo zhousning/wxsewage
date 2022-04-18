@@ -12,9 +12,6 @@ Component({
     items: []
   },
   lifetimes: {
-    created: function () {
-      console.log('created')
-    },
     attached: function () {
       console.log('attached')
       let that = this;
@@ -40,6 +37,7 @@ Component({
           wx.hideLoading()
         },
         fail:function(res) {
+          wx.hideLoading()
           console.log(res)
         }
       })

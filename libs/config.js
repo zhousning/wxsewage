@@ -3,6 +3,7 @@ var configs = {
     /*getUserId: 'https://www.bafangjie.cn/wx_users/get_userid',
     updateUser: 'https://www.bafangjie.cn/wx_users/',
     getUserId: 'http://192.168.43.7:3000/wx_users/get_userid',*/
+    host: 'http://192.168.43.7:3000/',
     getUserId: 'http://192.168.43.7:3000/wx_users/get_userid',
     updateUser: 'http://192.168.43.7:3000/wx_users/',
     fcts: 'http://192.168.43.7:3000/wx_users/fcts',
@@ -10,6 +11,7 @@ var configs = {
     set_fct: 'http://192.168.43.7:3000/wx_users/set_fct',
     task_query_all: 'http://192.168.43.7:3000/wx_tasks/query_all',
     task_query_finish: 'http://192.168.43.7:3000/wx_tasks/query_finish',
+    task_basic_card: 'http://192.168.43.7:3000/wx_tasks/basic_card',
   },
   games: {
     rankScore: 10,
