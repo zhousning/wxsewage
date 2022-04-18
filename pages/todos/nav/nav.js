@@ -7,9 +7,9 @@ Component({
     TabCur: 0,
     scrollLeft:0,
     tabs: [
-      {id: 0, title: '未接单'},
-      {id: 1, title: '处理中'},
-      {id: 2, title: '待确认'},
+      {id: 0, title: '进行中'},
+      /*{id: 1, title: '处理中'},
+      {id: 2, title: '待确认'},*/
       {id: 3, title: '已完成'}
     ]
   },

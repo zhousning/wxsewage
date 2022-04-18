@@ -1,5 +1,6 @@
 // pages/todos/process/process.js
 const app = getApp()
+const config = require('../../../libs/config.js')
 
 Component({
   options: {
@@ -7,6 +8,45 @@ Component({
   },
   data: {
     StatusBar: app.globalData.StatusBar,
-    CustomBar: app.globalData.CustomBar
+    CustomBar: app.globalData.CustomBar,
+    items: []
+  },
+  lifetimes: {
+    created: function () {
+      console.log('created')
+    },
+    attached: function () {
+      console.log('attached')
+      let that = this;
+      let openid = wx.getStorageSync('openId')
+      wx.showLoading({
+        title: '数据加载中',
+        mask: true,
+      })
+      wx.request({
+        url: config.routes.task_query_all,
+        method: 'GET',
+        header: {
+          'Accept': "*/*",
+          'content-type': 'application/json' // 默认值
+        },
+        data: {
+          id: openid
+        },
+        success: function (res) {
+          that.setData({
+            items: res.data
+          })
+          wx.hideLoading()
+        },
+        fail:function(res) {
+          console.log(res)
+        }
+      })
+    },
+    ready: function () {}
+  },
+  methods: {
+
   }
 })

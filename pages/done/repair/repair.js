@@ -8,6 +8,7 @@ Page({
     site_name: '',
     longitude: '',
     latitude: '',
+        markers: [], 
     question: '',
     imgList: [],
     running: [{
@@ -24,8 +25,9 @@ Page({
   },
   onReady: function (e) {
     var mapCtx = wx.createMapContext('myMap')
-    this.locatePosition();
+    //this.locatePosition();
     mapCtx.moveToLocation();
+   
   },
   locatePosition() {
     let that = this;
@@ -37,12 +39,20 @@ Page({
       isHighAccuracy: true,
       highAccuracyExpireTime: 5000,
       success(res) {
+        console.log(res)
         wx.hideLoading()
         const latitude = res.latitude
         const longitude = res.longitude
+        var marker = { 
+          id: 1, 
+          latitude: res.latitude, 
+          longitude: res.longitude, 
+          iconPath: '/images/location.png', 
+        }
         that.setData({
           longitude: longitude,
-          latitude: latitude
+          latitude: latitude,
+          markers: [marker]
         })
       },
       fail(res) {
