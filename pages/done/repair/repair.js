@@ -29,14 +29,9 @@ Page({
     ],
     textareaAValue: ''
   },
-  PickerChange(e) {
-    this.setData({
-      index: e.detail.value
-    })
-  },
   onLoad: function (option) {
     var that = this;
-    var openid = wx.getStorageSync('openid');
+    var openid = wx.getStorageSync('openId');
     var fct_id = option.fct_id
     var device_id = option.device_id
 
@@ -122,9 +117,14 @@ Page({
       }
     })
   },
+  PickerChange(e) {
+    this.setData({
+      index: e.detail.value
+    })
+  },
   textareaAInput(e) {
     this.setData({
-      textareaAValue: e.detail.value
+      question: e.detail.value
     })
   },
   ChooseImage() {
@@ -179,7 +179,7 @@ Page({
   },
   bindFormSubmit(e) {
     let that = this
-    var openid = wx.getStorageSync('openid')
+    var openid = wx.getStorageSync('openId');
     var task_id = that.data.picker[that.data.index].task_id
     var site_id = that.data.site_id
     var longitude = that.data.longitude

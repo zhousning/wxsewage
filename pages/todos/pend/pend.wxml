@@ -3,7 +3,7 @@
   <view wx:for="{{items}}" wx:key="{{item}}" class="cu-card article ">
 
     <view class="cu-item shadow padding-bottom-xs">
-      <navigator hover-class='none' url="/pages/todos/detail/detail">
+      <navigator hover-class='none' url="/pages/todos/detail/detail?task_id={{item.task_id}}">
         <view class="cu-bar bg-white solid-bottom margin-bottom">
           <view class='action'>
             <text class='cuIcon-titles text-orange '></text>巡检日期：{{item.task_date}}

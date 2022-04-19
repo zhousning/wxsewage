@@ -13,7 +13,6 @@ Component({
   },
   lifetimes: {
     attached: function () {
-      console.log('attached')
       let that = this;
       let openid = wx.getStorageSync('openId')
       wx.showLoading({
