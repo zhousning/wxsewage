@@ -12,6 +12,7 @@ var configs = {
     task_query_all: 'http://192.168.43.7:3000/wx_tasks/query_all',
     task_query_finish: 'http://192.168.43.7:3000/wx_tasks/query_finish',
     task_basic_card: 'http://192.168.43.7:3000/wx_tasks/basic_card',
+    task_report_create: 'http://192.168.43.7:3000/wx_tasks/report_create'
   },
   games: {
     rankScore: 10,

@@ -7,6 +7,9 @@ Page({
    */
   data: {
     site_name: '',
+    site_id: null,
+    task_id: null,
+    state: '0',
     longitude: '',
     latitude: '',
     markers: [],
@@ -57,11 +60,12 @@ Page({
         if (obj) {
           var array = []
           obj.tasks.forEach(element => {
-            array.push(element.task_date)
+            array.push(element)
           });
           that.setData({
             picker: array,
-            site_name: obj.device.name
+            site_name: obj.device.name,
+            site_id: obj.device.id
           })
         } else {
           wx.showToast({
@@ -79,7 +83,7 @@ Page({
   },
   onReady: function (e) {
     var mapCtx = wx.createMapContext('myMap')
-    //this.locatePosition();
+    this.locatePosition();
     mapCtx.moveToLocation();
   },
   locatePosition() {
@@ -170,7 +174,71 @@ Page({
       items[i].checked = items[i].value === e.detail.value
     }
     this.setData({
-      running: items
+      state: e.detail.value
+    })
+  },
+  bindFormSubmit(e) {
+    let that = this
+    var openid = wx.getStorageSync('openid')
+    var task_id = that.data.picker[that.data.index].task_id
+    var site_id = that.data.site_id
+    var longitude = that.data.longitude
+    var latitude = that.data.latitude
+    var state = that.data.state
+    var question = that.data.question
+    var imgs = that.data.imgList
+
+    wx.showLoading({
+      title: '数据保存中',
+    })
+    wx.request({
+      url: config.routes.task_report_create,
+      method: 'POST',
+      header: {
+        'Accept': "*/*",
+        'content-type': 'application/json' // 默认值
+      },
+      data: {
+        id: openid,
+        task_id: task_id,
+        site_id: site_id,
+        longitude: longitude,
+        latitude: latitude,
+        state: state,
+        question: question,
+        imgs: imgs
+      },
+      success: function (res) {
+        wx.hideLoading();
+        var obj = res.data
+        if (obj.state == 'success') {
+          wx.showToast({
+            title: '保存成功',
+            duration: 3000,
+            success: function () {
+              setTimeout(() => {
+                wx.redirectTo({
+                  url: '../../index/index',
+                })
+              }, 3000);
+            }
+          })
+        } else {
+          wx.showToast({
+            title: '保存失败',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      },
+      fail: function (e) {
+        wx.hideLoading();
+        wx.showToast({
+          title: '网络错误',
+          icon: 'none',
+          duration: 2000
+        })
+      }
     })
   }
 })

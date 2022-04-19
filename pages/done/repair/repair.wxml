@@ -4,8 +4,17 @@
 </cu-custom>
 
 <scroll-view scroll-x>
-	<form>
-		<view class="cu-form-group margin-top justify-between">
+	<form bindsubmit="bindFormSubmit">
+		<view class="cu-bar bg-white">
+			  <view class="action">
+    <!--        <button bindtap="cancelCorrect" class="cu-btn bg-green shadow-blur">取消</button>
+           <text class="cuIcon-close text-red"></text>-->
+		</view> 
+			<view class="action">
+				<button form-type="submit" class="cu-btn bg-blue shadow-blur">提交</button>
+			</view>
+		</view>
+		<view class="cu-form-group justify-between">
 			<view class="title">站点名称 </view>
 			<view class="title">{{site_name}}</view>
 		</view>
@@ -14,7 +23,7 @@
 			<view class="title">巡检任务</view>
 			<picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
 				<view class="picker">
-					{{picker[index]}}
+					{{picker[index].task_date}}
 				</view>
 			</picker>
 		</view>
