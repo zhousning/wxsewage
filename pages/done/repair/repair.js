@@ -15,6 +15,7 @@ Page({
     markers: [],
     question: '',
     imgList: [],
+    images: [],
     index: 0,
     picker: [],
     running: [{
@@ -128,20 +129,34 @@ Page({
     })
   },
   ChooseImage() {
+    let that = this;
     wx.chooseImage({
       count: 4, //默认9
       sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-      sourceType: ['album'], //从相册选择
+      sourceType: ['album'], //从相册选择album, 拍照camera
       success: (res) => {
-        if (this.data.imgList.length != 0) {
-          this.setData({
-            imgList: this.data.imgList.concat(res.tempFilePaths)
-          })
-        } else {
-          this.setData({
-            imgList: res.tempFilePaths
-          })
-        }
+        wx.uploadFile({
+          url: config.routes.img_upload,
+          header: {
+            'Accept': "*/*",
+            'content-type': 'application/json' // 默认值
+          },
+          filePath: res.tempFilePaths[0],
+          name: 'file',
+          success(result) {
+            var data = JSON.parse(result.data)
+            if (data.state == 'success') {
+              that.setData({
+                imgList: that.data.imgList.concat(res.tempFilePaths),
+                images: that.data.images.concat(data.url)
+              })
+            } else {
+              wx.showToast({
+                title: '上传失败',
+              })
+            }
+          }
+        })
       }
     });
   },
@@ -153,15 +168,16 @@ Page({
   },
   DelImg(e) {
     wx.showModal({
-      // title: '召唤师',
       content: '确定删除？',
       cancelText: '取消',
       confirmText: '确定',
       success: res => {
         if (res.confirm) {
           this.data.imgList.splice(e.currentTarget.dataset.index, 1);
+          this.data.images.splice(e.currentTarget.dataset.index, 1);
           this.setData({
-            imgList: this.data.imgList
+            imgList: this.data.imgList,
+            images: this.data.images
           })
         }
       }
@@ -186,7 +202,7 @@ Page({
     var latitude = that.data.latitude
     var state = that.data.state
     var question = that.data.question
-    var imgs = that.data.imgList
+    var imgs = that.data.images
 
     wx.showLoading({
       title: '数据保存中',

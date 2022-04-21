@@ -52,7 +52,7 @@
 
 		<view class="cu-bar bg-white ">
 			<view class="action">
-				图片上传
+			现场拍照
 			</view>
 			<view class="action">
 				{{imgList.length}}/4

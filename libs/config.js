@@ -9,6 +9,7 @@ var configs = {
     fcts: 'http://192.168.43.7:3000/wx_users/fcts',
     status: 'http://192.168.43.7:3000/wx_users/status',
     set_fct: 'http://192.168.43.7:3000/wx_users/set_fct',
+    img_upload: 'http://192.168.43.7:3000/wx_resources/img_upload',
     task_query_all: 'http://192.168.43.7:3000/wx_tasks/query_all',
     task_query_finish: 'http://192.168.43.7:3000/wx_tasks/query_finish',
     task_basic_card: 'http://192.168.43.7:3000/wx_tasks/basic_card',
