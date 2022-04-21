@@ -77,7 +77,7 @@
         {{rept.question}}
       </view>
       <view class="grid flex-sub padding col-3 grid-square">
-        <view class="bg-img" style="background-image:url({{img}});" wx:for="{{rept.imgs}}" wx:for-item="img" wx:key="*this">
+        <view class="bg-img" data-url='{{img}}' data-urls="{{rept.imgs}}" bindtap="previewImage" style="background-image:url({{img}});" wx:for="{{rept.imgs}}" wx:for-item="img" wx:key="*this">
         </view>
       </view>
     </view>

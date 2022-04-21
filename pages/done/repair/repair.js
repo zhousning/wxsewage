@@ -56,7 +56,7 @@ Page({
         if (obj) {
           var array = []
           obj.tasks.forEach(element => {
-            array.push(element)
+            array.push(element.task_date)
           });
           that.setData({
             picker: array,
@@ -144,10 +144,10 @@ Page({
           filePath: res.tempFilePaths[0],
           name: 'file',
           success(result) {
-            var data = JSON.parse(result.data)
+            var data = JSON.parse(res.data)
             if (data.state == 'success') {
               that.setData({
-                imgList: that.data.imgList.concat(res.tempFilePaths),
+                imgList: that.data.imgList.concat(res.tempFilePaths[0]),
                 images: that.data.images.concat(data.url)
               })
             } else {
@@ -202,7 +202,7 @@ Page({
     var latitude = that.data.latitude
     var state = that.data.state
     var question = that.data.question
-    var imgs = that.data.images
+    var imgs = that.data.imgList
 
     wx.showLoading({
       title: '数据保存中',

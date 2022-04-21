@@ -23,7 +23,7 @@
 			<view class="title">巡检任务</view>
 			<picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
 				<view class="picker">
-					{{picker[index].task_date}}
+					{{picker[index]}}
 				</view>
 			</picker>
 		</view>
