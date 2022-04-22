@@ -1,6 +1,6 @@
 <scroll-view scroll-y class="scrollPage">
 
-  <view wx:for="{{items}}" wx:key="{{item}}" class="cu-card article ">
+  <view wx:for="{{items}}" wx:key="*this" class="cu-card article ">
 
     <view class="cu-item shadow padding-bottom-xs">
       <navigator hover-class='none' url="/pages/todos/detail/detail?task_id={{item.task_id}}">
@@ -21,11 +21,10 @@
           </view>
         </view>
       </navigator>
-      <!--<view class="flex solid-top margin-top padding-xs justify-end">
-        <view class="cu-btn line-cyan padding-sm margin-xs ">接单</view>
-        <view class="cu-btn line-cyan padding-sm margin-xs ">转单</view>
-        <view class="cu-btn line-cyan padding-sm margin-xs ">报修进度</view>
-      </view>-->
+      <view class="flex solid-top margin-top padding-xs justify-between">
+        <button class="cu-btn line-cyan padding-sm margin-xs " bindtap="task_start" data-task="{{item.task_id}}">开始巡检</button>
+        <button class="cu-btn line-cyan padding-sm margin-xs " bindtap="task_end" data-task="{{item.task_id}}">到达站点</button>
+      </view>
     </view>
   </view>
   <view class='cu-tabbar-height'></view>

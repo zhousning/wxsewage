@@ -14,6 +14,8 @@ var configs = {
     task_query_finish: 'http://192.168.43.7:3000/wx_tasks/query_finish',
     task_basic_card: 'http://192.168.43.7:3000/wx_tasks/basic_card',
     task_info: 'http://192.168.43.7:3000/wx_tasks/task_info',
+    task_start: 'http://192.168.43.7:3000/wx_task_logs/task_start',
+    task_end: 'http://192.168.43.7:3000/wx_task_logs/task_end',
     task_report_create: 'http://192.168.43.7:3000/wx_tasks/report_create'
   },
   games: {
