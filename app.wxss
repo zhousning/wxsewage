@@ -116,3 +116,10 @@
   padding: 200rpx 0;
   box-sizing: border-box;
 } 
+.bg-myblue {
+    background-color: #2F88FF;
+    color: white;
+}
+.text-myblue {
+    color: #2F88FF;
+}

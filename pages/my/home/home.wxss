@@ -8,7 +8,7 @@
   position: relative;
   flex-direction: column;
   align-items: center;
-  background: #1cbbb4;
+  background: #2F88FF;
   color: #fff;
   font-weight: 300;
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);

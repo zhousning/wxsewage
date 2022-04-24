@@ -17,7 +17,6 @@ Component({
       let openid = wx.getStorageSync('openId')
       wx.showLoading({
         title: '数据加载中',
-        mask: true,
       })
       wx.request({
         url: config.routes.task_query_finish,
