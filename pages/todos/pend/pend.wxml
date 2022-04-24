@@ -1,5 +1,9 @@
 <scroll-view scroll-y class="scrollPage">
-
+     <!-- <button class="cu-btn line-cyan padding-sm margin-xs " bindtap="task_start_test" >开始巡检</button>
+        <button class="cu-btn line-cyan padding-sm margin-xs " bindtap="task_end_test" >到达站点</button>
+        <block wx:for="{{points}}" wx:key="*this">
+        <view>{{item}}</view>
+        </block>-->
   <view wx:for="{{items}}" wx:key="*this" class="cu-card article ">
 
     <view class="cu-item shadow padding-bottom-xs">

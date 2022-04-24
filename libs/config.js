@@ -16,7 +16,8 @@ var configs = {
     task_info: 'http://192.168.43.7:3000/wx_tasks/task_info',
     task_start: 'http://192.168.43.7:3000/wx_task_logs/task_start',
     task_end: 'http://192.168.43.7:3000/wx_task_logs/task_end',
-    task_report_create: 'http://192.168.43.7:3000/wx_tasks/report_create'
+    task_report_create: 'http://192.168.43.7:3000/wx_tasks/report_create',
+    task_accept_points: 'http://192.168.43.7:3000/wx_task_logs/accept_points'
   },
   games: {
     rankScore: 10,
