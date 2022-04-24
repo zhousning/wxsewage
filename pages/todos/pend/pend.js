@@ -86,7 +86,9 @@ Component({
             var oldTime = wx.getStorageSync('oldTime');
             var newLocation = data.latitude + "," + data.longitude;
             var accuracy = data.accuracy;
-            if (oldLocation != newLocation && currentTime - oldTime > 10000) {
+            //按总共有200个终端，日调用量总30000
+            //3s产生一个点
+            if (oldLocation != newLocation && currentTime - oldTime > 3000) {
               wx.setStorageSync('oldLocation', newLocation);
               wx.setStorageSync('oldTime', currentTime);
               var points = wx.getStorageSync('points') || [];
@@ -97,7 +99,8 @@ Component({
               }
               points.unshift(point);
               wx.setStorageSync('points', points)
-              if (points.length > 90) {
+              //30s上传一次，一次上传不超过10个点
+              if (points.length > 10) {
                 that.uploadPoints() 
               }
             }
