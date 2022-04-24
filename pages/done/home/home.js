@@ -1,22 +1,47 @@
-// pages/todos/home/home.js
+// pages/todos/process/process.js
+const app = getApp()
+const config = require('../../../libs/config.js')
+
 Component({
-  /**
-   * 组件的属性列表
-   */
-  properties: {
-
+  options: {
+    addGlobalClass: true
   },
-
-  /**
-   * 组件的初始数据
-   */
   data: {
-
+    StatusBar: app.globalData.StatusBar,
+    CustomBar: app.globalData.CustomBar,
+    items: []
   },
-
-  /**
-   * 组件的方法列表
-   */
+  lifetimes: {
+    attached: function () {
+      let that = this;
+      let openid = wx.getStorageSync('openId')
+      wx.showLoading({
+        title: '数据加载中',
+        mask: true,
+      })
+      wx.request({
+        url: config.routes.task_query_plan,
+        method: 'GET',
+        header: {
+          'Accept': "*/*",
+          'content-type': 'application/json' // 默认值
+        },
+        data: {
+          id: openid
+        },
+        success: function (res) {
+          that.setData({
+            items: res.data
+          })
+          wx.hideLoading()
+        },
+        fail:function(res) {
+          console.log(res)
+        }
+      })
+    },
+    ready: function () {}
+  },
   methods: {
 
   }
