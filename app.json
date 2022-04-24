@@ -27,9 +27,6 @@
   "permission": {
     "scope.userLocation": {
       "desc": "你的位置信息将用于定位使用"
-    },
-    "scope.userLocationBackground": {
-      "desc": "小程序实时定位"
     }
   },
   "debug": true,

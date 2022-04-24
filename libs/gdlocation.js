@@ -4,10 +4,10 @@ var gdlocation = {
     //points.unshift(util.formatTime(new Date()) + ' 经度:' + data.longitude + ' 纬度:' + data.latitude);
     //坐标上传到服务器
     uploadPoints() {
+        var points = wx.getStorageSync('points');
+        let openid = wx.getStorageSync('openId')
+        let task_log_id = wx.getStorageSync('task_log_id')
         if (points.length > 0) {
-            let openid = wx.getStorageSync('openId')
-            let task_log_id = wx.getStorageSync('task_log_id')
-            var points = wx.getStorageSync('points');
             wx.request({
                 url: config.routes.task_accept_points,
                 method: 'POST',
@@ -41,6 +41,7 @@ var gdlocation = {
                     var accuracy = data.accuracy;
                     //按总共有200个终端，日调用量总30000
                     //3s产生一个点
+                    console.log(newLocation)
                     if (oldLocation != newLocation && currentTime - oldTime > 3000) {
                         wx.setStorageSync('oldLocation', newLocation);
                         wx.setStorageSync('oldTime', currentTime);
@@ -51,6 +52,7 @@ var gdlocation = {
                             accuracy: accuracy
                         }
                         points.unshift(point);
+                        console.log(points);
                         wx.setStorageSync('points', points)
                         //30s上传一次，一次上传不超过10个点
                         if (points.length > 10) {
