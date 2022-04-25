@@ -10,7 +10,7 @@
       <navigator hover-class='none' url="/pages/todos/detail/detail?task_id={{item.task_id}}">
         <view class="cu-bar bg-white solid-bottom margin-bottom">
           <view class='action'>
-            <text class='cuIcon-titles text-orange '></text>巡检日期：{{item.task_date}}
+            <text class='cuIcon-titles text-blue '></text>巡检日期：{{item.task_date}}
           </view>
         </view>
 
@@ -26,8 +26,8 @@
         </view>
       </navigator>
       <view class="flex solid-top margin-top padding-xs justify-between">
-        <button class="cu-btn line-cyan padding-sm margin-xs " bindtap="task_start" data-task="{{item.task_id}}">开始巡检</button>
-        <button class="cu-btn line-cyan padding-sm margin-xs " bindtap="task_end" data-task="{{item.task_id}}">到达站点</button>
+        <button class="cu-btn line-blue padding-sm margin-xs " bindtap="task_start" data-task="{{item.task_id}}">开始巡检</button>
+        <button class="cu-btn line-blue padding-sm margin-xs " bindtap="task_end" data-task="{{item.task_id}}">到达站点</button>
       </view>
     </view>
   </view>
