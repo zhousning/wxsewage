@@ -5,11 +5,10 @@ var gdlocation = {
     //points.unshift(util.formatTime(new Date()) + ' 经度:' + data.longitude + ' 纬度:' + data.latitude);
     //坐标上传到服务器
     uploadPoints() {
-        var points = wx.getStorageSync('points');
         var cpoints = wx.getStorageSync('cpoints');
         let openid = wx.getStorageSync('openId')
         let task_log_id = wx.getStorageSync('task_log_id')
-        if (openid != null && points.length > 0) {
+        if (openid != null && cpoints.length > 0) {
             wx.request({
                 url: config.routes.task_accept_points,
                 method: 'POST',
@@ -62,7 +61,9 @@ var gdlocation = {
                         if (points.length > 10) {
                             config.getNetwork().then(res => {
                                 //进入这块 说明是有网络做有网络的事
-                                gdlocation.uploadPoints()
+                                new Promise((resolve, reject) => {
+                                  gdlocation.uploadPoints()
+                                })
                             }).catch(res => {
                                 wx.setStorageSync('points', [])
                                 console.log(res);
