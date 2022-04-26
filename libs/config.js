@@ -20,6 +20,20 @@ var configs = {
     task_report_create: 'http://192.168.31.20:3000/wx_tasks/report_create',
     task_accept_points: 'http://192.168.31.20:3000/wx_task_logs/accept_points'
   },
+  getNetwork() {
+    return new Promise((resolve, reject) => {
+      wx.getNetworkType({
+        success(res) {
+          const networkType = res.networkType
+          if (res.networkType === 'none') {
+            reject()
+          } else {
+            resolve()
+          }
+        }
+      })
+    })
+  },
   games: {
     rankScore: 10,
     changeQuestionTime: 100,

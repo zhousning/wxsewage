@@ -8,6 +8,7 @@ Page({
   },
   NavChange(e) {
     if (app.globalData.userInfo) {
+      
       this.setData({
         PageCur: e.currentTarget.dataset.cur
       })
