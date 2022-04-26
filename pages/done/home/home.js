@@ -35,6 +35,10 @@ Component({
           wx.hideLoading()
         },
         fail:function(res) {
+          wx.showToast({
+            icon: 'error',
+            title: '数据加载失败',
+          })
           console.log(res)
         }
       })

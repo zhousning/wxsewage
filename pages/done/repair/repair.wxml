@@ -1,4 +1,4 @@
-<cu-custom bgColor="bg-cyan" isBack="{{true}}">
+<cu-custom bgColor="bg-blue" isBack="{{true}}">
 	<view slot="backText">返回</view>
 	<view slot="content">巡检卡填报</view>
 </cu-custom>
