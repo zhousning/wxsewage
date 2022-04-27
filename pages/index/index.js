@@ -58,7 +58,7 @@ Page({
                 success: (res) => {
                     //url http://47.104.153.152/factories/16284/devices/16878/info
                     var result = res.result
-                    var url_reg = /http:\/\/47.104.153.152\/factories\/(\d+)\/devices\/(\d+)\/info/
+                    var url_reg = /http:\/\/192.168.43.7:3000\/factories\/(\d+)\/devices\/(\d+)\/info/
                     var pattern = url_reg.test(result)
                     if (pattern) {
                         var fct_id_reg = /factories\/(\d+)\//

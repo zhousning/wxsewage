@@ -56,7 +56,7 @@ Page({
         if (obj) {
           var array = []
           obj.tasks.forEach(element => {
-            array.push(element.task_date)
+            array.push(element)
           });
           that.setData({
             picker: array,
@@ -132,8 +132,8 @@ Page({
     let that = this;
     wx.chooseImage({
       count: 4, //默认9
-      sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-      sourceType: ['album'], //从相册选择album, 拍照camera
+      sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['camera'], //从相册选择album, 拍照camera
       success: (res) => {
         wx.uploadFile({
           url: config.routes.img_upload,
@@ -144,7 +144,7 @@ Page({
           filePath: res.tempFilePaths[0],
           name: 'file',
           success(result) {
-            var data = JSON.parse(res.data)
+            var data = JSON.parse(result.data)
             if (data.state == 'success') {
               that.setData({
                 imgList: that.data.imgList.concat(res.tempFilePaths[0]),
@@ -202,7 +202,7 @@ Page({
     var latitude = that.data.latitude
     var state = that.data.state
     var question = that.data.question
-    var imgs = that.data.imgList
+    var imgs = that.data.images
 
     wx.showLoading({
       title: '数据保存中',
