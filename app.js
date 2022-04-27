@@ -38,7 +38,7 @@ App({
   globalData: {
     userInfo: wx.getStorageSync('userInfo'),
     setting: setting.setting,
-    hastask: false,
+    task_ongoin: null,
     ColorList: [{
         title: '嫣红',
         name: 'red',
