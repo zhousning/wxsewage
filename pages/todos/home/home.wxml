@@ -6,7 +6,7 @@
 <!--<navcpn></navcpn> -->
 <scroll-view scroll-y class="scrollPage todopage">
     <view wx:for="{{items}}" wx:key="*this" class="cu-card article ">
-        <view class="cu-item shadow padding-bottom-xs">
+        <view class="cu-item solid-bottom shadow padding-bottom-xs">
             <navigator hover-class='none' url="/pages/todos/detail/detail?task_id={{item.task_id}}">
                 <view class="cu-bar bg-white solid-bottom margin-bottom">
                     <view class='action'>
@@ -37,7 +37,7 @@
                 <image src="../../../images/wave.gif" mode="scaleToFill" class="gif-black response" style="height:100rpx"></image>
             </view>
         </block>
-        <view class="flex solid-top margin-top padding-xs justify-center">
+        <view class="flex  margin-top padding-xs justify-center">
             <block wx:if="{{!task_ongoing}}">
                 <view class=" start-btn margin-top-xl radius bg-gradual-blue shadow-blur text-xl" bindtap="task_start" data-task="{{item.task_id}}">
                     <text class="text-white">开始巡检</text>
