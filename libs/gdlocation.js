@@ -36,7 +36,7 @@ var gdlocation = {
      * lo1 第一个坐标点的经度
      * la2 第二个坐标点的纬度
      * lo2 第二个坐标点的经度
-     * (int)s   返回距离(米)
+     * (int)s   返回距离(米) 有误差
      */
     get_distance: function (lo1, la1, lo2, la2) {
         var La1 = la1 * Math.PI / 180.0;
@@ -46,12 +46,10 @@ var gdlocation = {
         var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(La3 / 2), 2) + Math.cos(La1) * Math.cos(La2) * Math.pow(Math.sin(Lb3 / 2), 2)));
         s = s * 6378.137;
         s = Math.round(s * 10000) / 10000;
-        s = s.toFixed(2) * 1000;
-        return s;
+        s = s * 1000; //米
+        return Number(s);
     },
     set_point_storage(newLocation, currentTime) {
-        wx.setStorageSync('oldLocation', newLocation);
-        wx.setStorageSync('oldTime', currentTime);
         var points = wx.getStorageSync('points') || [];
         var cpoints = wx.getStorageSync('cpoints') || [];
         var point = {
@@ -73,26 +71,31 @@ var gdlocation = {
             });
         }
         //按总共有200个终端，日调用量总30000
-        //3s产生一个点, 30s上传一次，一次上传不超过10个点
+        //3s产生一个点, 30s上传一次，一次上传不超过10个点 points-length = 10
         wx.startLocationUpdateBackground({
             success: (res) => {
                 wx.onLocationChange((data) => {
                     var currentTime = new Date().getTime();
-                    var oldLocation = wx.getStorageSync('oldLocation');
+                    var orgLocation = wx.getStorageSync('orgLocation');
                     var oldTime = wx.getStorageSync('oldTime');
                     var new_long = data.longitude.toFixed(5);
                     var new_lat = data.latitude.toFixed(5);
                     var newLocation = new_long + "," + new_lat;
 
-                    if (oldLocation == null) {
+                    if (orgLocation == "") {
+                        wx.setStorageSync('orgLocation', data.longitude + ',' + data.latitude);
+                        wx.setStorageSync('oldLocation', newLocation);
+                        wx.setStorageSync('oldTime', currentTime);
                         gdlocation.set_point_storage(newLocation, currentTime);
                     } else {
-                        var oldarr = oldLocation.split(',');
-                        var old_long = oldarr[0].toFixed();
-                        var old_lat = oldarr[1].toFixed();
-                        var distance = gdlocation.get_distance(old_long, old_lat, new_long, new_lat);
-                        //if (distance > 1 && currentTime - oldTime > 3000) {
-                        if (distance > 1) {
+                        var oldarr = orgLocation.split(',');
+                        var old_long = Number(oldarr[0]);
+                        var old_lat = Number(oldarr[1]);
+                        var distance = gdlocation.get_distance(old_long, old_lat, data.longitude, data.latitude);
+                        wx.setStorageSync('orgLocation', data.longitude + ',' + data.latitude);
+                        wx.setStorageSync('oldLocation', newLocation);
+                        wx.setStorageSync('oldTime', currentTime);
+                        if (distance > 1 && currentTime - oldTime > 3000) {
                             var points = gdlocation.set_point_storage(newLocation, currentTime);
                             if (points.length > 10) {
                                 config.getNetwork().then(res => {
