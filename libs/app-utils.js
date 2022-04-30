@@ -104,58 +104,6 @@ var appUtil = {
         console.log(res.data.status);
       }
     })
-  },
-  startGame: function(obj) {
-    var openid = wx.getStorageSync('openId');
-    var goGame = obj.goGame;
-    wx.setStorageSync('score', 0)
-    var rank = wx.getStorageSync('rank');
-    if (!rank) {
-      wx.request({
-        url: config.routes.getRank,
-        header: {
-          'Accept': "*/*",
-          'content-type': 'application/json' // 默认值
-        },
-        data: {
-          openid: openid
-        },
-        success: function (res) {
-          console.log(res);
-          var rank = parseInt(res.data.rank);
-          wx.setStorageSync('rank', rank);
-        }
-      })
-    }
-    goGame();
-  },
-  addScore: function() {
-    var score = wx.getStorageSync('score');
-    var rank = wx.getStorageSync('rank');
-    var openid = wx.getStorageSync("openId");
-    if (score && score != 0 && rank != null) {
-      wx.request({
-        url: config.routes.addScore,
-        method: 'POST',
-        header: {
-          'Accept': "*/*",
-          'content-type': 'application/json' // 默认值
-        },
-        data: {
-          openid: openid,
-          mark: score,
-          step: config.games.rankScore,
-          rank: rank
-        },
-        success: function (res) {
-          if (res.data.status == 1) {
-            wx.removeStorageSync('score');
-            //不在加完成绩后remove rank，是由于victory到开始游戏页面会被频繁使用
-            //wx.removeStorageSync('rank');
-          }
-        }
-      })
-    }
   }
 }
 

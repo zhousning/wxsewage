@@ -8,7 +8,6 @@ Page({
     },
     NavChange(e) {
         if (app.globalData.userInfo) {
-
             if (app.globalData.task_ongoing) {
                 wx.showToast({
                     icon: 'loading',

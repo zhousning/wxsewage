@@ -33,7 +33,8 @@
         </block>
         <block wx:if="{{task_ongoing}}">
             <view class="text-center padding-top margin-xl radius bg-gradual-purple shadow-blur justify-center align-center">
-                <text class="text-xl">巡检任务进行中...</text>
+                <text class="text-xl">任务进行中,</text>
+                <text class="text-xl">请勿离开...</text>
                 <image src="../../../images/wave.gif" mode="scaleToFill" class="gif-black response" style="height:100rpx"></image>
             </view>
         </block>

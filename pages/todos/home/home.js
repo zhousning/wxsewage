@@ -80,6 +80,7 @@ Component({
                         app.globalData.task_ongoing = true;
                         that.setData({
                             task_ongoing: true,
+                            start_time: new Date().getTime(),
                             task_log_id: obj.task_log_id
                         })
                         wx.setStorageSync('task_log_id', obj.task_log_id)
@@ -106,6 +107,9 @@ Component({
             var task_id = e.currentTarget.dataset.task
             let openid = wx.getStorageSync('openId')
             let task_log_id = wx.getStorageSync('task_log_id')
+            var current_time = new Date().getTime();
+            var start_time = that.data.start_time;
+            if (current_time - start_time > 300000) {
             wx.showLoading({
                 title: '结束中',
                 mask: true,
@@ -147,11 +151,18 @@ Component({
                 fail: function (res) {
                     wx.hideLoading()
                     wx.showToast({
-                        title: '网络错误',
+                        title: '接口调用失败',
                         duration: 3000
                     })
                 }
             })
+            } else {
+                wx.showToast({
+                  icon: 'loading',
+                  title: '时长小于5分钟',
+                  duration: 2000
+                })
+            }
 
         }
     }
