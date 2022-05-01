@@ -6,6 +6,7 @@ var configs = {
     host: 'http://192.168.31.20:3000/',
     getUserId: 'http://192.168.31.20:3000/wx_users/get_userid',
     updateUser: 'http://192.168.31.20:3000/wx_users/',
+    getUserInfo: 'http://192.168.31.20:3000/wx_users/get_user_info',
     fcts: 'http://192.168.31.20:3000/wx_users/fcts',
     status: 'http://192.168.31.20:3000/wx_users/status',
     set_fct: 'http://192.168.31.20:3000/wx_users/set_fct',

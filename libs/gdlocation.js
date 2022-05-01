@@ -47,7 +47,10 @@ var gdlocation = {
                     var currentTime = new Date().getTime();
                     var oldLocation = wx.getStorageSync('oldLocation');
                     var oldTime = wx.getStorageSync('oldTime');
-                    var newLocation = data.longitude.toFixed(5) + "," + data.latitude.toFixed(5);
+                    var newLocation = data.longitude.toString().slice(0,10) + "," + data.latitude.toString().slice(0,9);
+                    var speed = data.speed*3.6.toFixed(3);
+                    var accuracy = data.accuracy.toFixed(3);
+                    var height = data.altitude.toFixed(3);
                     if (oldLocation != newLocation && currentTime - oldTime > 3000) {
                         wx.setStorageSync('oldLocation', newLocation);
                         wx.setStorageSync('oldTime', currentTime);
@@ -55,8 +58,12 @@ var gdlocation = {
                         var cpoints = wx.getStorageSync('cpoints') || [];
                         var point = {
                             location: newLocation,
-                            locatetime: currentTime
+                            locatetime: currentTime,
+                            speed: speed,
+                            accuracy: accuracy,
+                            height: height
                         }
+                        console.log(point)
                         points.unshift(point);
                         cpoints.unshift(point);
                         wx.setStorageSync('points', points)
