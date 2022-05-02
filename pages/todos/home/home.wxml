@@ -55,9 +55,6 @@
         <button class="cu-btn line-blue padding-sm margin-xs " bindtap="task_end" data-task="{{item.task_id}}">到达站点</button>
     </view>-->
     </view>
-    <block wx:for="{{points}}" wx:key="*this">
-        <view>{{item['location']}}</view>
-    </block>
     <view class='cu-tabbar-height'>
     </view>
 </scroll-view>

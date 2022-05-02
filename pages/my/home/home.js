@@ -5,19 +5,31 @@ Component({
         addGlobalClass: true,
     },
     data: {
-        userInfo: null
+        userInfo: {},
+        hasUserInfo: false,
     },
-
-    attached() {
-        let that = this;
-        wx.showLoading({
-            title: '数据加载中',
-            mask: true,
-        })
-        that.setData({
-            userInfo: wx.getStorageSync('userInfo')
-        })
-        wx.hideLoading()
+    lifetimes: {
+        attached() {
+          let that = this;
+          if (app.globalData.hasUserInfo) {
+            that.setData({
+                userInfo: app.globalData.userInfo,
+                hasUserInfo: true
+            })
+          }
+        }
+    },
+    pageLifetimes: {
+        //微信授权后navigatback回来执行的是页面的show，组件之间切换执行的attached，所以这两个方法都要加
+        show() {
+          let that = this;
+          if (app.globalData.hasUserInfo) {
+            that.setData({
+                userInfo: app.globalData.userInfo,
+                hasUserInfo: true
+            })
+          }
+        }
     },
     methods: {
         LogOut() {
@@ -31,8 +43,10 @@ Component({
                         wx.removeStorageSync('openId')
                         wx.removeStorageSync('userInfo')
                         app.globalData.userInfo = null
+                        app.globalData.hasUserInfo = false
                         that.setData({
-                            userInfo: null
+                            userInfo: {},
+                            hasUserInfo: false
                         })
 
                     }
@@ -40,16 +54,7 @@ Component({
             })
         },
         LogIn() {
-            let that = this;
-            var login = appUtils.validLogin();
-            login.then(() => {
-                var userInfo = wx.getStorageSync('userInfo');
-                app.globalData.userInfo = userInfo;
-                that.setData({
-                    userInfo: userInfo
-                })
-            })
-
+            appUtils.validLogin();
         }
     }
 })

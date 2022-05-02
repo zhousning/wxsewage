@@ -11,7 +11,6 @@ Component({
         StatusBar: app.globalData.StatusBar,
         CustomBar: app.globalData.CustomBar,
         items: [],
-        points: [],
         start_time: '',
         end_time: '',
         task_ongoing: null,
@@ -23,7 +22,6 @@ Component({
             let openid = wx.getStorageSync('openId')
             wx.showLoading({
                 title: '数据加载中',
-                mask: true,
             })
             wx.request({
                 url: config.routes.task_query_all,
@@ -36,14 +34,14 @@ Component({
                     id: openid
                 },
                 success: function (res) {
-                    if (res.data.length > 0) {
+                    wx.hideLoading()
+                    if (res.statusCode == 200 && res.data.length > 0) {
                         app.globalData.task_ongoing = false;
                         that.setData({
                             items: res.data,
                             task_ongoing: false 
                         })
                     }
-                    wx.hideLoading()
                 },
                 fail: function (res) {
                     wx.hideLoading()

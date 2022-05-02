@@ -1,26 +1,22 @@
 // index.js
 // 获取应用实例
 const app = getApp()
-const appUtils = require('../../libs/app-utils');
+
 Page({
     data: {
         PageCur: 'todos'
     },
-    onShow() {
-        let that = this;
-        var openId = wx.getStorageSync('openId');
-        var userInfo = wx.getStorageSync('userInfo');
-        if (!userInfo || !openId) {
-            that.setData({
-                PageCur: 'my'
-            })
-        }
-    },
+    //onShow() {
+    //    let that = this;
+    //    if (!app.globalData.hasUserInfo) {
+    //        that.setData({
+    //            PageCur: 'my'
+    //        })
+    //    }
+    //},
     NavChange(e) {
         let that = this;
-        var openId = wx.getStorageSync('openId');
-        var userInfo = wx.getStorageSync('userInfo');
-        if (userInfo && openId) {
+        if (app.globalData.hasUserInfo) {
             if (app.globalData.task_ongoing) {
                 wx.showToast({
                     icon: 'loading',
@@ -39,9 +35,7 @@ Page({
     },
     scanRepair() {
         let that = this;
-        var openId = wx.getStorageSync('openId');
-        var userInfo = wx.getStorageSync('userInfo');
-        if (userInfo && openId) {
+        if (app.globalData.hasUserInfo) {
             if (app.globalData.task_ongoing) {
                 wx.showModal({
                     title: '提示',

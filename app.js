@@ -10,6 +10,13 @@ App({
         //logs.unshift(Date.now())
         //wx.setStorageSync('logs', logs)
 
+        var openId = wx.getStorageSync('openId')
+        var userinfo = wx.getStorageSync('userInfo')
+        if (openId && userinfo) {
+            that.globalData.userInfo = userinfo
+            that.globalData.hasUserInfo = true
+        }
+
         wx.getSystemInfo({
             success: e => {
                 that.globalData.StatusBar = e.statusBarHeight;
@@ -24,7 +31,7 @@ App({
             wx.getNetworkType({
                 success(res) {
                     const networkType = res.networkType
-                    if (res.networkType === 'none') {
+                    if (networkType === 'none') {
                         reject()
                     } else {
                         resolve()
@@ -34,7 +41,8 @@ App({
         })
     },
     globalData: {
-        userInfo: wx.getStorageSync('userInfo'),
+        userInfo: {},
+        hasUserInfo: false,
         setting: setting.setting,
         task_ongoin: null,
         ColorList: [{
