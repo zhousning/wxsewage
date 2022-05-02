@@ -6,14 +6,14 @@ Page({
     data: {
         PageCur: 'todos'
     },
-    //onShow() {
-    //    let that = this;
-    //    if (!app.globalData.hasUserInfo) {
-    //        that.setData({
-    //            PageCur: 'my'
-    //        })
-    //    }
-    //},
+    onShow() {
+        let that = this;
+        if (!app.globalData.hasUserInfo) {
+            that.setData({
+                PageCur: 'my'
+            })
+        }
+    },
     NavChange(e) {
         let that = this;
         if (app.globalData.hasUserInfo) {

@@ -43,7 +43,7 @@ var gdlocation = {
         wx.startLocationUpdateBackground({
             success: (res) => {
                 wx.onLocationChange((data) => {
-                    console.log(new Date() + ' 经度:' + data.longitude + ' 纬度:' + data.latitude);
+                    //console.log(new Date() + ' 经度:' + data.longitude + ' 纬度:' + data.latitude);
                     var currentTime = new Date().getTime();
                     var oldLocation = wx.getStorageSync('oldLocation');
                     var oldTime = wx.getStorageSync('oldTime');
@@ -63,7 +63,6 @@ var gdlocation = {
                             accuracy: accuracy,
                             height: height
                         }
-                        console.log(point)
                         points.unshift(point);
                         cpoints.unshift(point);
                         wx.setStorageSync('points', points)

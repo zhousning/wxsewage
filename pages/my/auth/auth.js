@@ -30,18 +30,6 @@ Page({
                 app.globalData.userInfo = res.userInfo;
                 app.globalData.hasUserInfo = true;
                 that.updateUserInfo(res.userInfo);
-                //this.setData({
-                //    userInfo: res.userInfo,
-                //    hasUserInfo: true
-                //})
-            },
-            fail: (res) => {
-                reject();
-                wx.showToast({
-                    title: '接口调用失败',
-                    duration: 3000,
-                    icon: 'loading'
-                })
             }
         })
     },
