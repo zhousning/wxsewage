@@ -132,6 +132,7 @@ Page({
   },
   ChooseImage() {
     let that = this;
+    let openid = wx.getStorageSync('openId')
     wx.chooseImage({
       count: 4, //默认9
       sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
@@ -145,6 +146,9 @@ Page({
           },
           filePath: res.tempFilePaths[0],
           name: 'file',
+          formData: {
+              id: openid
+          },
           success(result) {
             var data = JSON.parse(result.data)
             if (data.state == 'success') {
