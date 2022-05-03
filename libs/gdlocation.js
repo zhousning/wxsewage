@@ -35,62 +35,68 @@ var gdlocation = {
     //按总共有200个终端，日调用量总30000
     //3s产生一个点,30s上传一次，一次上传不超过10个点
     get_location() {
-        if (wx.setScreenBrightness) {
-            wx.setKeepScreenOn({
-                keepScreenOn: true // 保持屏幕常亮 true / false
-            });
-        }
-        if (wx.startLocationUpdateBackground && wx.onLocationChange) {
-            wx.startLocationUpdateBackground({
-                success: (res) => {
-                    wx.onLocationChange((data) => {
-                        //console.log(new Date() + ' 经度:' + data.longitude + ' 纬度:' + data.latitude);
-                        var currentTime = new Date().getTime();
-                        var oldLocation = wx.getStorageSync('oldLocation');
-                        var oldTime = wx.getStorageSync('oldTime');
-                        var newLocation = data.longitude.toString().slice(0, 10) + "," + data.latitude.toString().slice(0, 9);
-                        var speed = data.speed * 3.6.toFixed(3);
-                        var accuracy = data.accuracy.toFixed(3);
-                        var height = data.altitude.toFixed(3);
-                        if (oldLocation != newLocation && currentTime - oldTime > 3000) {
-                            wx.setStorageSync('oldLocation', newLocation);
-                            wx.setStorageSync('oldTime', currentTime);
-                            var points = wx.getStorageSync('points') || [];
-                            var cpoints = wx.getStorageSync('cpoints') || [];
-                            var point = {
-                                location: newLocation,
-                                locatetime: currentTime,
-                                speed: speed,
-                                accuracy: accuracy,
-                                height: height
-                            }
-                            points.unshift(point);
-                            cpoints.unshift(point);
-                            wx.setStorageSync('points', points)
-                            wx.setStorageSync('cpoints', cpoints)
-                            if (points.length > 10) {
-                                config.getNetwork().then(res => {
-                                    new Promise((resolve, reject) => {
-                                        gdlocation.uploadPoints()
+        return new Promise((resolve, reject) => {
+            if (wx.setScreenBrightness) {
+                wx.setKeepScreenOn({
+                    keepScreenOn: true // 保持屏幕常亮 true / false
+                });
+            }
+            if (wx.startLocationUpdateBackground && wx.onLocationChange) {
+                wx.startLocationUpdateBackground({
+                    success: (res) => {
+                        resolve();
+                        wx.onLocationChange((data) => {
+                            //console.log(new Date() + ' 经度:' + data.longitude + ' 纬度:' + data.latitude);
+                            var currentTime = new Date().getTime();
+                            var oldLocation = wx.getStorageSync('oldLocation');
+                            var oldTime = wx.getStorageSync('oldTime');
+                            var newLocation = data.longitude.toString().slice(0, 10) + "," + data.latitude.toString().slice(0, 9);
+                            var speed = data.speed * 3.6.toFixed(3);
+                            var accuracy = data.accuracy.toFixed(3);
+                            var height = data.altitude.toFixed(3);
+                            if (oldLocation != newLocation && currentTime - oldTime > 3000) {
+                                wx.setStorageSync('oldLocation', newLocation);
+                                wx.setStorageSync('oldTime', currentTime);
+                                var points = wx.getStorageSync('points') || [];
+                                var cpoints = wx.getStorageSync('cpoints') || [];
+                                var point = {
+                                    location: newLocation,
+                                    locatetime: currentTime,
+                                    speed: speed,
+                                    accuracy: accuracy,
+                                    height: height
+                                }
+                                points.unshift(point);
+                                cpoints.unshift(point);
+                                wx.setStorageSync('points', points)
+                                wx.setStorageSync('cpoints', cpoints)
+                                if (points.length > 10) {
+                                    config.getNetwork().then(res => {
+                                        new Promise((resolve, reject) => {
+                                            gdlocation.uploadPoints()
+                                        })
+                                    }).catch(res => {
+                                        wx.setStorageSync('points', [])
                                     })
-                                }).catch(res => {
-                                    wx.setStorageSync('points', [])
-                                })
+                                }
                             }
-                        }
-                    });
-                },
-                fail: (err) => {
-                    console.log(err)
-                    wx.openSetting()
-                }
-            })
-        } else {
-            wx.showModal({
-                title: '提示',
-                content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
-            })
-        }
+                        });
+                    },
+                    fail: (err) => {
+                        reject();
+                        wx.navigateTo({
+                            url: '/pages/todos/locationauth/locationauth',
+                        })
+                    }
+                })
+            } else {
+                reject();
+                wx.showModal({
+                    title: '提示',
+                    content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+                })
+            }
+        })
     },
 }
 
