@@ -134,17 +134,25 @@ Component({
                             if (wx.stopLocationUpdate) {
                                 wx.stopLocationUpdate({
                                     success: (res) => {
-                                        gdlocation.uploadPoints()
-                                        app.globalData.task_ongoing = false;
-                                        that.setData({
-                                            task_ongoing: false,
-                                            task_log_id: null
+                                        gdlocation.uploadPoints().then(res => {
+                                            app.globalData.task_ongoing = false;
+                                            that.setData({
+                                                task_ongoing: false,
+                                                task_log_id: null
+                                            })
+                                            wx.removeStorageSync('task_log_id')
+                                        }).catch(res => {
+                                            app.globalData.task_ongoing = false;
+                                            that.setData({
+                                                task_ongoing: false,
+                                                task_log_id: null
+                                            })
+                                            wx.removeStorageSync('task_log_id')
                                         })
-                                        wx.removeStorageSync('task_log_id')
                                     },
                                     fail: (res) => {
                                         wx.showToast({
-                                          title: '停止接口调用失败',
+                                            title: '停止接口调用失败',
                                         })
                                     }
                                 })
