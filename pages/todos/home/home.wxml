@@ -40,14 +40,28 @@
         </block>
         <view class="flex  margin-top padding-xs justify-center">
             <block wx:if="{{!task_ongoing}}">
-                <view class=" start-btn margin-top-xl radius bg-gradual-blue shadow-blur text-xl" bindtap="task_start" data-task="{{item.task_id}}">
-                    <text class="text-white">开始巡检</text>
-                </view>
+                <block wx:if="{{!start_going}}">
+                    <view class=" start-btn margin-top-xl radius bg-gradual-blue shadow-blur text-xl" bindtap="task_start" data-task="{{item.task_id}}">
+                        <text class="text-white">开始巡检</text>
+                    </view>
+                </block>
+                <block wx:else>
+                    <view class=" start-btn margin-top-xl radius bg-grey shadow-blur text-xl">
+                        <text class=" text-white">开启中</text>
+                    </view>
+                </block>
             </block>
             <block wx:if="{{task_ongoing}}">
-                <view class=" start-btn margin-top-xl radius bg-gradual-pink shadow-blur text-xl" bindtap="task_end" data-task="{{item.task_id}}">
-                    <text class="text-white">到达站点</text>
-                </view>
+                <block wx:if="{{!end_going}}">
+                    <view class=" start-btn margin-top-xl radius bg-gradual-pink shadow-blur text-xl" bindtap="task_end" data-task="{{item.task_id}}">
+                        <text class="text-white">到达站点</text>
+                    </view>
+                </block>
+                <block wx:else>
+                    <view class=" start-btn margin-top-xl radius bg-grey shadow-blur text-xl">
+                        <text class=" text-white">结束中</text>
+                    </view>
+                </block>
             </block>
         </view>
         <!--<view class="flex solid-top margin-top padding-xs justify-between">

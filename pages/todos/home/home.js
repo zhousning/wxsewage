@@ -13,6 +13,8 @@ Component({
         items: [],
         start_time: '',
         end_time: '',
+        start_going: false,
+        end_going: false,
         task_ongoing: null,
         task_log_id: ''
     },
@@ -45,7 +47,6 @@ Component({
                 },
                 fail: function (res) {
                     wx.hideLoading()
-                    console.log(res)
                 }
             })
         }
@@ -56,6 +57,9 @@ Component({
             let that = this
             var task_id = e.currentTarget.dataset.task
             let openid = wx.getStorageSync('openId')
+            that.setData({
+                start_going: true
+            })
             wx.showLoading({
                 title: '任务开启中',
                 mask: true,
@@ -92,12 +96,18 @@ Component({
                             title: '开启失败',
                         })
                     }
+                    that.setData({
+                        start_going: false,
+                    })
                 },
                 fail: function (res) {
                     wx.hideLoading()
                     wx.showToast({
                         title: '网络错误',
                         duration: 3000
+                    })
+                    that.setData({
+                        start_going: false,
                     })
                 }
             })
@@ -110,6 +120,9 @@ Component({
             let task_log_id = wx.getStorageSync('task_log_id')
             var current_time = new Date().getTime();
             var start_time = that.data.start_time;
+            that.setData({
+                end_going: true,
+            })
             if (current_time - start_time > 300000) {
                 wx.showLoading({
                     title: '结束中',
@@ -168,12 +181,18 @@ Component({
                                 title: '结束失败',
                             })
                         }
+                        that.setData({
+                            end_going: false
+                        })
                     },
                     fail: function (res) {
                         wx.hideLoading()
                         wx.showToast({
                             title: '接口调用失败',
                             duration: 3000
+                        })
+                        that.setData({
+                            end_going: false
                         })
                     }
                 })
